@@ -1,0 +1,181 @@
+#N canvas 658 139 1100 625 10;
+#X obj 19 35 cnv 15 300 500 empty empty 2D_OBJECT 20 12 0 14 -233017
+-66577 0;
+#X obj 333 36 cnv 15 300 500 empty empty XYZ_ROTATION_+_MODULATION
+20 12 0 14 -233017 -66577 0;
+#X obj 46 502 dac~ 1 2 3;
+#X obj 357 90 nbx 5 14 -1e+037 1e+037 0 1 empty empty Xrotation 0 -8
+0 10 -4034 -1 -1 0 256;
+#X obj 357 129 sig~;
+#X obj 172 131 sig~;
+#X obj 172 90 nbx 5 14 -1e+037 1e+037 0 1 empty empty brightness 0
+-8 0 10 -4034 -1 -1 100 256;
+#X obj 456 90 nbx 5 14 -1e+037 1e+037 0 1 empty empty Yrotation 0 -8
+0 10 -4034 -1 -1 0 256;
+#X obj 456 130 sig~;
+#X obj 546 89 nbx 5 14 -1e+037 1e+037 0 1 empty empty Zrotation 0 -8
+0 10 -4034 -1 -1 0 256;
+#X obj 546 129 sig~;
+#X obj 112 109 / 100;
+#X obj 46 89 nbx 5 14 -1e+037 1e+037 0 1 empty empty freq 0 -8 0 10
+-4034 -1 -1 42 256;
+#X obj 111 134 sig~;
+#X obj 112 90 nbx 5 14 -1e+037 1e+037 0 1 empty empty scale 0 -8 0
+10 -4034 -1 -1 10 256;
+#X obj 46 109 phasor~;
+#X obj 172 109 / 100;
+#X obj 357 108 / 360;
+#X obj 456 108 / 360;
+#X obj 546 108 / 360;
+#X text 899 308 Derek Holzer;
+#X text 899 357 macumbista@gmail.com;
+#X obj 565 468 tgl 15 1 empty empty ON_OFF 17 7 0 10 -258113 -1 -1
+1 1;
+#X obj 565 496 switch~;
+#X text 949 234 X (horizontal);
+#X text 961 254 Y (vertical);
+#X text 973 274 Brightness;
+#X text 740 234 Signal from [phasor~];
+#X text 740 254 Scale (signal 0-1);
+#X text 740 274 Brightness (signal 0-1);
+#X obj 46 470 VS-rotate;
+#X obj 209 197 bng 35 250 50 0 empty empty OPEN_X 40 17 0 10 -257985
+-1 -1;
+#X obj 209 237 bng 35 250 50 0 empty empty OPEN_Y 40 17 0 10 -257985
+-1 -1;
+#X text 740 294 Open file for X table;
+#X text 740 314 Open file for Y table;
+#X text 899 332 Helsinki July 2018;
+#X obj 61 299 VS-object_2d;
+#X text 685 45 [VS-object_2d] opens two text files which represent
+the X and Y coordinates of an WKT file. These text files are prepared
+by the wkt_parse.py script authored by Lee Montgomery \, please see
+the README in the "02.vector_synthesis-wkt_parser" directory for details
+on how to convert SVG artwork to WKT and then parse it for use here.
+;
+#X obj 301 452 dac~;
+#X obj 288 486 writesf~ 2;
+#X msg 476 477 stop;
+#X obj 278 530 bng 15 250 50 0 empty \$0-audio-record_button rec 17
+7 0 10 -262144 -1 -1;
+#X obj 338 530 bng 15 250 50 0 empty empty stop 17 7 0 10 -262144 -1
+-1;
+#X obj 278 755 savepanel;
+#X msg 476 424 open -bytes 4 \$1 \, start, f 17;
+#X obj 325 857 pack f \$0;
+#X msg 365 823 0, f 1;
+#X obj 278 789 t s b;
+#X msg 325 823 13, f 2;
+#X msg 325 891 \; \$2-audio-record_button color \$1;
+#N canvas 676 399 452 448 meter 0;
+#X obj 119 104 env~ 65536;
+#X obj 103 256 vu 9 160 empty right -1 -8 0 8 -13330 -86853 1 0;
+#X obj 102 36 inlet~ signal;
+#X obj 131 242 bng 8 250 50 0 empty empty empty 17 7 0 10 -4034 -258113
+-1;
+#X obj 119 138 - 97;
+#X obj 102 206 - 97;
+#X obj 102 172 env~ 1024;
+#X obj 131 70 threshold~ 0.999999 50 0 10;
+#X connect 0 0 4 0;
+#X connect 2 0 0 0;
+#X connect 2 0 6 0;
+#X connect 2 0 7 0;
+#X connect 4 0 1 1;
+#X connect 5 0 1 0;
+#X connect 6 0 5 0;
+#X connect 7 0 3 0;
+#X coords 0 -1 1 1 41 180 2 100 240;
+#X restore 338 555 pd meter;
+#X obj 321 557 vsl 15 175 0 1 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 17400 1;
+#X obj 278 424 *~;
+#X obj 402 424 *~;
+#X obj 305 390 line~;
+#X msg 305 356 \$1 1000;
+#N canvas 676 399 470 448 meter 0;
+#X obj 119 104 env~ 65536;
+#X obj 103 256 vu 9 160 empty left -1 -8 0 8 -13330 -86853 1 0;
+#X obj 102 36 inlet~ signal;
+#X obj 131 242 bng 8 250 50 0 empty empty empty 17 7 0 10 -4034 -258113
+-1;
+#X obj 119 138 - 97;
+#X obj 102 206 - 97;
+#X obj 102 172 env~ 1024;
+#X obj 131 70 threshold~ 0.999999 50 0 10;
+#X connect 0 0 4 0;
+#X connect 2 0 0 0;
+#X connect 2 0 6 0;
+#X connect 2 0 7 0;
+#X connect 4 0 1 1;
+#X connect 5 0 1 0;
+#X connect 6 0 5 0;
+#X connect 7 0 3 0;
+#X coords 0 -1 1 1 41 180 2 100 240;
+#X restore 278 555 pd meter;
+#X obj 495 233 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 12700 1;
+#X floatatom 495 368 5 0 0 0 - - -;
+#X obj 480 386 *~;
+#X obj 495 186 loadbang;
+#X msg 495 207 1;
+#X text 514 279 raise slider to 'write on' the waveform;
+#X text 723 205 INLETS (no longer used);
+#X text 883 205 OUTLETS (no longer used);
+#X text 767 411 Wave recorder code from pdpatchrepo.info user atemporality
+https://forum.pdpatchrepo.info/user/atemporality Added here by Henry
+Birdseye;
+#X connect 3 0 17 0;
+#X connect 4 0 30 4;
+#X connect 5 0 36 2;
+#X connect 6 0 16 0;
+#X connect 7 0 18 0;
+#X connect 8 0 30 5;
+#X connect 9 0 19 0;
+#X connect 10 0 30 6;
+#X connect 11 0 13 0;
+#X connect 12 0 15 0;
+#X connect 13 0 36 1;
+#X connect 14 0 11 0;
+#X connect 15 0 59 0;
+#X connect 16 0 5 0;
+#X connect 17 0 4 0;
+#X connect 18 0 8 0;
+#X connect 19 0 10 0;
+#X connect 22 0 23 0;
+#X connect 30 0 2 0;
+#X connect 30 0 52 0;
+#X connect 30 1 2 1;
+#X connect 30 1 53 0;
+#X connect 30 3 2 2;
+#X connect 31 0 36 3;
+#X connect 32 0 36 4;
+#X connect 36 0 30 0;
+#X connect 36 1 30 1;
+#X connect 36 2 30 3;
+#X connect 40 0 39 0;
+#X connect 41 0 43 0;
+#X connect 42 0 40 0;
+#X connect 42 0 46 0;
+#X connect 43 0 47 0;
+#X connect 44 0 39 0;
+#X connect 45 0 49 0;
+#X connect 46 0 45 0;
+#X connect 47 0 44 0;
+#X connect 47 1 48 0;
+#X connect 48 0 45 0;
+#X connect 51 0 55 0;
+#X connect 52 0 38 0;
+#X connect 52 0 39 0;
+#X connect 52 0 56 0;
+#X connect 53 0 38 1;
+#X connect 53 0 50 0;
+#X connect 53 0 39 1;
+#X connect 54 0 52 1;
+#X connect 54 0 53 1;
+#X connect 55 0 54 0;
+#X connect 57 0 58 0;
+#X connect 58 0 59 1;
+#X connect 59 0 36 0;
+#X connect 60 0 61 0;
+#X connect 61 0 57 0;
