@@ -1,0 +1,382 @@
+#N canvas 562 15 1265 924 10;
+#X obj 19 35 cnv 15 300 500 empty empty 2D_OBJECT 20 12 0 14 -233017
+-66577 0;
+#X obj 333 36 cnv 15 300 500 empty empty XYZ_ROTATION_+_MODULATION
+20 12 0 14 -233017 -66577 0;
+#X obj 46 502 dac~ 1 2 3;
+#X obj 357 90 nbx 5 14 -1e+037 1e+037 0 1 empty empty Xrotation 0 -8
+0 10 -4034 -1 -1 0 256;
+#X obj 357 129 sig~;
+#X obj 172 131 sig~;
+#X obj 172 90 nbx 5 14 -1e+037 1e+037 0 1 empty empty brightness 0
+-8 0 10 -4034 -1 -1 100 256;
+#X obj 456 90 nbx 5 14 -1e+037 1e+037 0 1 empty empty Yrotation 0 -8
+0 10 -4034 -1 -1 0 256;
+#X obj 456 130 sig~;
+#X obj 546 89 nbx 5 14 -1e+037 1e+037 0 1 empty empty Zrotation 0 -8
+0 10 -4034 -1 -1 0 256;
+#X obj 546 129 sig~;
+#X obj 112 109 / 100;
+#X obj 46 89 nbx 5 14 -1e+037 1e+037 0 1 empty empty freq 0 -8 0 10
+-4034 -1 -1 41 256;
+#X obj 111 134 sig~;
+#X obj 112 90 nbx 5 14 -1e+037 1e+037 0 1 empty empty scale 0 -8 0
+10 -4034 -1 -1 8 256;
+#X obj 46 109 phasor~;
+#X obj 172 109 / 100;
+#X obj 357 108 / 360;
+#X obj 456 108 / 360;
+#X obj 546 108 / 360;
+#X text 967 198 Derek Holzer;
+#X text 919 226 macumbista@gmail.com;
+#X obj 565 468 tgl 15 1 empty empty ON_OFF 17 7 0 10 -258113 -1 -1
+1 1;
+#X obj 565 496 switch~;
+#X text 955 139 X (horizontal);
+#X text 967 153 Y (vertical);
+#X text 979 167 Brightness;
+#X text 746 139 Signal from [phasor~];
+#X text 746 153 Scale (signal 0-1);
+#X text 746 167 Brightness (signal 0-1);
+#X obj 46 470 VS-rotate;
+#X obj 209 197 bng 35 250 50 0 empty empty OPEN_X 40 17 0 10 -257985
+-1 -1;
+#X obj 209 237 bng 35 250 50 0 empty empty OPEN_Y 40 17 0 10 -257985
+-1 -1;
+#X text 746 183 Open file for X table;
+#X text 746 197 Open file for Y table;
+#X text 931 212 Helsinki July 2018;
+#X obj 61 299 VS-object_2d;
+#X text 685 45 [VS-object_2d] opens two text files which represent
+the X and Y coordinates of an WKT file. These text files are prepared
+by the wkt_parse.py script authored by Lee Montgomery \, please see
+the README in the "02.vector_synthesis-wkt_parser" directory for details
+on how to convert SVG artwork to WKT and then parse it for use here.
+;
+#X obj 301 452 dac~;
+#X obj 288 486 writesf~ 2;
+#X msg 476 477 stop;
+#X obj 282 521 bng 30 250 50 0 empty \$0-audio-record_button rec 17
+-10 0 15 -262144 -1 -1;
+#X obj 338 522 bng 30 250 50 0 empty empty stop 17 -10 0 15 -262144
+-1 -1;
+#X obj 278 755 savepanel;
+#X msg 476 424 open -bytes 4 \$1 \, start, f 17;
+#X obj 325 857 pack f \$0;
+#X msg 365 823 0, f 1;
+#X obj 278 789 t s b;
+#X msg 325 823 13, f 2;
+#X msg 325 891 \; \$2-audio-record_button color \$1;
+#N canvas 676 399 452 448 meter 0;
+#X obj 119 104 env~ 65536;
+#X obj 103 256 vu 9 160 empty right -1 -8 0 8 -13330 -86853 1 0;
+#X obj 102 36 inlet~ signal;
+#X obj 131 242 bng 8 250 50 0 empty empty empty 17 7 0 10 -4034 -258113
+-1;
+#X obj 119 138 - 97;
+#X obj 102 206 - 97;
+#X obj 102 172 env~ 1024;
+#X obj 131 70 threshold~ 0.999999 50 0 10;
+#X connect 0 0 4 0;
+#X connect 2 0 0 0;
+#X connect 2 0 6 0;
+#X connect 2 0 7 0;
+#X connect 4 0 1 1;
+#X connect 5 0 1 0;
+#X connect 6 0 5 0;
+#X connect 7 0 3 0;
+#X coords 0 -1 1 1 41 180 2 100 240;
+#X restore 338 555 pd meter;
+#X obj 321 557 vsl 15 175 0 1 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 17400 1;
+#X obj 278 424 *~;
+#X obj 402 424 *~;
+#X obj 305 390 line~;
+#X msg 305 356 \$1 1000;
+#N canvas 676 399 470 448 meter 0;
+#X obj 119 104 env~ 65536;
+#X obj 103 256 vu 9 160 empty left -1 -8 0 8 -13330 -86853 1 0;
+#X obj 102 36 inlet~ signal;
+#X obj 131 242 bng 8 250 50 0 empty empty empty 17 7 0 10 -4034 -258113
+-1;
+#X obj 119 138 - 97;
+#X obj 102 206 - 97;
+#X obj 102 172 env~ 1024;
+#X obj 131 70 threshold~ 0.999999 50 0 10;
+#X connect 0 0 4 0;
+#X connect 2 0 0 0;
+#X connect 2 0 6 0;
+#X connect 2 0 7 0;
+#X connect 4 0 1 1;
+#X connect 5 0 1 0;
+#X connect 6 0 5 0;
+#X connect 7 0 3 0;
+#X coords 0 -1 1 1 41 180 2 100 240;
+#X restore 278 555 pd meter;
+#X text 735 125 INLETS (no longer used);
+#X text 895 125 OUTLETS (no longer used);
+#X text -20 557 Wave recorder code from pdpatchrepo.info user atemporality
+https://forum.pdpatchrepo.info/user/atemporality Added here by Henry
+Birdseye;
+#X obj 717 546 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 695 596 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 717 572 metro 100;
+#X obj 803 368 vsl 15 128 0 1 0 0 empty empty end 0 -9 0 10 -262144
+-1 -1 12700 1;
+#X obj 771 369 vsl 15 128 1 0 0 0 empty empty start 0 -9 0 10 -262144
+-1 -1 12700 1;
+#X floatatom 764 500 5 0 0 0 - - -;
+#X floatatom 834 496 5 0 0 0 - - -;
+#X obj 748 527 *~;
+#X floatatom 652 493 5 0 0 0 - - -;
+#X obj 652 471 - 1;
+#X obj 645 441 t b f;
+#X obj 652 514 + 1;
+#X floatatom 652 536 5 0 0 0 - - -;
+#N canvas 0 50 450 250 (subpatch) 0;
+#X array sawscale 1000 float 3;
+#A 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1;
+#X coords 0 1 1000 -1 160 140 1 0 0;
+#X restore 882 353 graph;
+#X obj 716 594 tabwrite~ sawscale;
+#X obj 748 547 *~;
+#X obj 747 618 +~;
+#X obj 754 277 loadbang;
+#X obj 704 292 bng 30 250 50 0 empty empty empty 17 7 0 10 -4034 -1
+-1;
+#X text 1042 317 attack;
+#X obj 1099 381 t a b;
+#X obj 1099 337 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 754 333 1, f 4;
+#N canvas 0 50 450 250 (subpatch) 0;
+#X array adsrend 1000 float 3;
+#A 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1;
+#X coords 0 1 1000 -1 160 100 1 0 0;
+#X restore 881 505 graph;
+#X msg 832 305 0, f 4;
+#X msg 718 661 0;
+#X obj 1070 337 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 1100 421 line;
+#X msg 1070 355 0 0;
+#X obj 1073 519 t a b;
+#X obj 1073 481 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 1106 477 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 1073 539 line;
+#N canvas 0 50 450 250 (subpatch) 0;
+#X array adsrstart 1000 float 3;
+#A 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
+#X coords 0 1 1000 -1 160 100 1 0 0;
+#X restore 879 621 graph;
+#X obj 902 320 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 1073 499 1 0;
+#X obj 902 286 loadbang;
+#X obj 1099 315 delay 500;
+#X obj 964 258 key;
+#X floatatom 964 279 5 0 0 0 - - -;
+#X obj 964 299 sel 47;
+#X obj 717 707 tabwrite~ adsrend;
+#X obj 712 751 tabwrite~ adsrstart;
+#X msg 1106 499 0 1000;
+#X msg 1099 355 1 2000;
+#X obj 1106 459 delay 4000;
+#X text 924 757 This section of code will scale the phasor~ (top left)
+to reveal the waveform 1/2 second after the large green bang is clicked
+\, hold for 3.5 seconds \, then scale and offset the phasor to erase
+it. You can also \, just hit the "/" key to initiate the process as
+well.;
+#X connect 3 0 17 0;
+#X connect 4 0 30 4;
+#X connect 5 0 36 2;
+#X connect 6 0 16 0;
+#X connect 7 0 18 0;
+#X connect 8 0 30 5;
+#X connect 9 0 19 0;
+#X connect 10 0 30 6;
+#X connect 11 0 13 0;
+#X connect 12 0 15 0;
+#X connect 13 0 36 1;
+#X connect 14 0 11 0;
+#X connect 15 0 67 0;
+#X connect 16 0 5 0;
+#X connect 17 0 4 0;
+#X connect 18 0 8 0;
+#X connect 19 0 10 0;
+#X connect 22 0 23 0;
+#X connect 30 0 2 0;
+#X connect 30 0 52 0;
+#X connect 30 1 2 1;
+#X connect 30 1 53 0;
+#X connect 30 3 2 2;
+#X connect 31 0 36 3;
+#X connect 32 0 36 4;
+#X connect 36 0 30 0;
+#X connect 36 1 30 1;
+#X connect 36 2 30 3;
+#X connect 40 0 39 0;
+#X connect 41 0 43 0;
+#X connect 42 0 40 0;
+#X connect 42 0 46 0;
+#X connect 43 0 47 0;
+#X connect 44 0 39 0;
+#X connect 45 0 49 0;
+#X connect 46 0 45 0;
+#X connect 47 0 44 0;
+#X connect 47 1 48 0;
+#X connect 48 0 45 0;
+#X connect 51 0 55 0;
+#X connect 52 0 38 0;
+#X connect 52 0 39 0;
+#X connect 52 0 56 0;
+#X connect 53 0 38 1;
+#X connect 53 0 50 0;
+#X connect 53 0 39 1;
+#X connect 54 0 52 1;
+#X connect 54 0 53 1;
+#X connect 55 0 54 0;
+#X connect 60 0 62 0;
+#X connect 62 0 61 0;
+#X connect 62 0 74 0;
+#X connect 62 0 101 0;
+#X connect 62 0 102 0;
+#X connect 63 0 66 0;
+#X connect 63 0 67 1;
+#X connect 64 0 65 0;
+#X connect 65 0 70 0;
+#X connect 65 0 75 1;
+#X connect 67 0 75 0;
+#X connect 68 0 71 0;
+#X connect 69 0 68 0;
+#X connect 70 0 69 0;
+#X connect 70 1 69 1;
+#X connect 71 0 72 0;
+#X connect 72 0 76 1;
+#X connect 75 0 76 0;
+#X connect 76 0 74 0;
+#X connect 76 0 36 0;
+#X connect 77 0 84 0;
+#X connect 77 0 82 0;
+#X connect 77 0 60 0;
+#X connect 78 0 82 0;
+#X connect 78 0 84 0;
+#X connect 78 0 60 0;
+#X connect 80 0 87 0;
+#X connect 81 0 104 0;
+#X connect 82 0 64 0;
+#X connect 84 0 63 0;
+#X connect 85 0 101 0;
+#X connect 86 0 88 0;
+#X connect 87 0 63 0;
+#X connect 87 0 101 0;
+#X connect 88 0 80 0;
+#X connect 89 0 92 0;
+#X connect 90 0 95 0;
+#X connect 91 0 103 0;
+#X connect 92 0 64 0;
+#X connect 92 0 102 0;
+#X connect 94 0 86 0;
+#X connect 94 0 90 0;
+#X connect 94 0 97 0;
+#X connect 94 0 105 0;
+#X connect 95 0 89 0;
+#X connect 96 0 94 0;
+#X connect 97 0 81 0;
+#X connect 98 0 99 0;
+#X connect 99 0 100 0;
+#X connect 100 0 94 0;
+#X connect 103 0 89 0;
+#X connect 104 0 80 0;
+#X connect 105 0 91 0;
